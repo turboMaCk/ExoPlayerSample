@@ -33,15 +33,9 @@ dependencies {
     })
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    // full exoplayer library
     compile 'com.google.android.exoplayer:exoplayer:r2.5.2'
-
-    /*
-    library modules
-    compile 'com.google.android.exoplayer:exoplayer-core:r2.X.X'
-    compile 'com.google.android.exoplayer:exoplayer-ui:r2.X.X'
-    compile 'com.google.android.exoplayer:exoplayer-dash:r2.X.X'
-    compile 'com.google.android.exoplayer:exoplayer-hls:r2.X.X'
-    compile 'com.google.android.exoplayer-smoothstreaming:r2.X.X'
-    */
+    compile 'com.google.android.exoplayer:exoplayer-core:r2.5.2'
+    compile 'com.google.android.exoplayer:exoplayer-ui:r2.5.2'
+    compile 'com.google.android.exoplayer:exoplayer-dash:r2.5.2'
+    compile 'com.google.android.exoplayer:exoplayer-hls:r2.5.2'
 }
