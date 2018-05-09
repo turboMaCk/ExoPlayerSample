@@ -8,16 +8,33 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView
 import com.google.android.exoplayer2.util.Util
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
+import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
 import com.google.android.exoplayer2.source.LoopingMediaSource
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
+import com.google.android.exoplayer2.upstream.DataSource
+import com.google.android.exoplayer2.upstream.UdpDataSource
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+
+class UdpFactory implements DataSource.Factory() {
+    var vymrdanytypcosenedozvis thing
+
+    fun init(thing) {
+        this.thing = thing
+    }
+
+    fun createDatasource() {
+        DataSource.Factory {
+            UdpDataSource(this.thing, 1024,99999999)
+        }
+    }
+}
 
 class VideoPlayerActivity : AppCompatActivity() {
     private lateinit var player: SimpleExoPlayer
     private var shouldAutoPlay: Boolean = false
-    private val uri = Uri.parse("http://54.255.155.24:1935//Live/_definst_/amlst:sweetbcha1novD235L240P/playlist.m3u8")
+    private val uri = Uri.parse("rtsp://184.72.239.149/vod/mp4:BigBuckBunny_175k.mov")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,14 +47,14 @@ class VideoPlayerActivity : AppCompatActivity() {
         val bandwidthMeter = DefaultBandwidthMeter()
         val trackSelectionFactory = AdaptiveTrackSelection.Factory(bandwidthMeter)
         val trackSelector = DefaultTrackSelector(trackSelectionFactory)
-        val dataSourceFactory = DefaultDataSourceFactory(this, Util.getUserAgent(this, "exoplayer2example"), bandwidthMeter)
+        var dataSourceFactory = DefaultDataSourceFactory(this, Util.getUserAgent(this, "exoplayer2example"), bandwidthMeter)
         val extractorsFactory = DefaultExtractorsFactory()
-        val videoSource = HlsMediaSource(uri, dataSourceFactory, 1, null, null)
-        val loopingSource =  LoopingMediaSource(videoSource)
+        val udpDataSource = UdpFactory(this)
+        val mediaSource = ExtractorMediaSource(uri, udpDataSource, extractorsFactory, null, null)
 
         simpleExoPlayerView.requestFocus()
         player = ExoPlayerFactory.newSimpleInstance(this, trackSelector)
-        player.prepare(loopingSource)
+        player.prepare(mediaSource)
         player.playWhenReady = shouldAutoPlay;
         simpleExoPlayerView.player = player
     }
