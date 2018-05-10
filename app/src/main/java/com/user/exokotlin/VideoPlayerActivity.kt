@@ -4,19 +4,18 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.google.android.exoplayer2.*
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
+import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView
-import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.upstream.UdpDataSource
+import com.google.android.exoplayer2.upstream.*
 
-class VideoPlayerActivity : AppCompatActivity() {
+class VideoPlayerActivity : AppCompatActivity(), TransferListener<UdpDataSource> {
 
     private lateinit var player: SimpleExoPlayer
     private var shouldAutoPlay: Boolean = false
-    private val uri = Uri.parse("udp://@54.255.155.24:1935//Live/_definst_/amlst:sweetbcha1novD235L240P/playlist.m3u8")
+    private val uri = Uri.parse("udp://@239.1.1.1:1234")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +37,9 @@ class VideoPlayerActivity : AppCompatActivity() {
         // This listener is pass as 2nd argument to DefaultDataSourceFactory as well as to UdpDataSource
         val myDataSourceFactory = DefaultDataSourceFactory(this, null, { -> UdpDataSource(null) })
 
-        // HlsMediaSource is currently used - will need change
-        val mediaSource = HlsMediaSource(uri, myDataSourceFactory, 1, null, null)
+        // Extractor factory & media source
+        val extractorsFactory = DefaultExtractorsFactory()
+        val mediaSource = ExtractorMediaSource(uri, myDataSourceFactory, extractorsFactory, null, null)
 
         // Main initialization side-effects
         simpleExoPlayerView.requestFocus()
@@ -49,6 +49,21 @@ class VideoPlayerActivity : AppCompatActivity() {
         simpleExoPlayerView.player = player
     }
 
+    // UDP stream
+    // might not be necessary
+    override fun onTransferStart(source: UdpDataSource?, dataSpec: DataSpec?) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onTransferEnd(source: UdpDataSource?) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onBytesTransferred(source: UdpDataSource?, bytesTransferred: Int) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    // Activity
     private fun releasePlayer() {
         player.release()
         shouldAutoPlay = player.playWhenReady
