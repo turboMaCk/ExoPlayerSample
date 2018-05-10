@@ -15,7 +15,7 @@ class VideoPlayerActivity : AppCompatActivity(), TransferListener<UdpDataSource>
 
     private lateinit var player: SimpleExoPlayer
     private var shouldAutoPlay: Boolean = false
-    private val uri = Uri.parse("udp://@239.1.1.1:1234")
+    private val uri = Uri.parse("udp://@239.255.0.1:5004")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +71,6 @@ class VideoPlayerActivity : AppCompatActivity(), TransferListener<UdpDataSource>
 
     override fun onStart() {
         super.onStart()
-        initPlayer()
     }
 
     override fun onResume() {

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ExoPlayerSample-Kotlin.iml" filepath="$PROJECT_DIR$/ExoPlayerSample-Kotlin.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/exoplayersample.iml" filepath="$PROJECT_DIR$/exoplayersample.iml" />
     </modules>
   </component>
 </project>
